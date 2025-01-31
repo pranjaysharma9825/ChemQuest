@@ -1,0 +1,240 @@
+{% extends 'base.html' %}
+
+{% block extra_css %}
+<style>
+    /* Hero Section Styles */
+    .hero-section {
+        padding: 50px 0;
+        position: relative;
+        z-index: 1;
+    }
+
+    .hero-section h1 {
+        font-size: 100px;
+        font-weight: 1000;
+        margin: 0;
+        line-height: 0.8;
+        text-align: left;
+        padding-left: 20px;
+    }
+
+    .pink { color: pink; }
+    .yellow { color: yellow; }
+    .neon-green { color: #39ff14; }
+    .cyan { color: cyan; }
+
+    /* Molecular Visualization Container */
+    #molecule-container {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100vh;
+        z-index: -1;
+    }
+
+    /* Content Sections */
+    .content-section {
+        min-height: 100vh;
+        padding: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+        transform: translateY(50px);
+        transition: all 0.8s ease-out;
+    }
+
+    .content-section.visible {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    .content-box {
+        background: rgba(46, 46, 46, 0.8);
+        border-radius: 15px;
+        padding: 30px;
+        max-width: 800px;
+        margin: 20px;
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .content-box h2 {
+        color: #39ff14;
+        font-size: 2.5em;
+        margin-bottom: 20px;
+    }
+
+    .content-box p {
+        font-size: 1.2em;
+        line-height: 1.6;
+        margin-bottom: 20px;
+    }
+
+    /* Features Grid */
+    .features-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 20px;
+        margin-top: 30px;
+    }
+
+    .feature-card {
+        background: rgba(0, 0, 0, 0.3);
+        padding: 20px;
+        border-radius: 10px;
+        text-align: center;
+        transition: transform 0.3s ease;
+    }
+
+    .feature-card:hover {
+        transform: translateY(-5px);
+    }
+
+    .login-btn {
+        display: inline-block;
+        background: var(--neon-purple);
+        color: white;
+        padding: 15px 30px;
+        border-radius: 25px;
+        text-decoration: none;
+        font-size: 1.2em;
+        margin-top: 20px;
+        margin-left: 20px;
+        transition: all 0.3s ease;
+    }
+
+    .login-btn:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 0 20px var(--neon-purple);
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<div class="hero-section">
+    <h1 class="pink">struggling</h1>
+    <h1 class="yellow">in</h1>
+    <h1 class="neon-green">JEE</h1>
+    <h1 class="cyan">CHEMISTRY?</h1>
+    
+    {% if not user.is_authenticated %}
+        <a href="{% url 'login' %}" class="login-btn">Start Learning Now</a>
+    {% else %}
+        <a href="{% url 'login' %}" class="login-btn">Login</a>
+    {% endif %}
+</div>
+
+<!-- Molecular Visualization -->
+<div id="molecule-container"></div>
+
+<!-- Why ChemQuest Section -->
+<section class="content-section">
+    <div class="content-box">
+        <h2>Why ChemQuest?</h2>
+        <p>ChemQuest revolutionizes your JEE Chemistry preparation through an innovative approach that combines interactive learning, personalized guidance, and cutting-edge technology.</p>
+        <div class="features-grid">
+            <div class="feature-card">
+                <h3>Interactive Learning</h3>
+                <p>Engage with 3D molecular structures and interactive simulations</p>
+            </div>
+            <div class="feature-card">
+                <h3>Smart Practice</h3>
+                <p>AI-powered question bank adapts to your learning pace</p>
+            </div>
+            <div class="feature-card">
+                <h3>Expert Guidance</h3>
+                <p>Learn from top JEE educators and mentors</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Our Approach Section -->
+<section class="content-section">
+    <div class="content-box">
+        <h2>Our Approach</h2>
+        <p>We believe in making chemistry intuitive and engaging. Our platform breaks down complex concepts into digestible pieces, supported by visual learning aids and real-world applications.</p>
+    </div>
+</section>
+
+<!-- Success Stories Section -->
+<section class="content-section">
+    <div class="content-box">
+        <h2>Success Stories</h2>
+        <p>Join thousands of students who have transformed their JEE Chemistry preparation with ChemQuest.</p>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+    // Three.js Molecular Visualization
+    let scene, camera, renderer, molecule;
+    
+    function init() {
+        scene = new THREE.Scene();
+        camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        renderer = new THREE.WebGLRenderer({ alpha: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        document.getElementById('molecule-container').appendChild(renderer.domElement);
+
+        // Create a simple molecule representation
+        const geometry = new THREE.SphereGeometry(1, 32, 32);
+        const material = new THREE.MeshBasicMaterial({ color: 0x39ff14, wireframe: true });
+        molecule = new THREE.Group();
+
+        // Add atoms
+        for (let i = 0; i < 8; i++) {
+            const atom = new THREE.Mesh(geometry, material);
+            atom.position.set(
+                Math.cos(i * Math.PI / 4) * 3,
+                Math.sin(i * Math.PI / 4) * 3,
+                0
+            );
+            molecule.add(atom);
+        }
+
+        scene.add(molecule);
+        camera.position.z = 15;
+    }
+
+    function animate() {
+        requestAnimationFrame(animate);
+        molecule.rotation.x += 0.001;
+        molecule.rotation.y += 0.002;
+        renderer.render(scene, camera);
+    }
+
+    // Handle scroll animations
+    function handleScroll() {
+        const sections = document.querySelectorAll('.content-section');
+        const scrollPosition = window.scrollY;
+
+        sections.forEach(section => {
+            const sectionTop = section.offsetTop - window.innerHeight * 0.7;
+            if (scrollPosition > sectionTop) {
+                section.classList.add('visible');
+                // Update molecule scale based on scroll
+                const scale = 1 + (scrollPosition * 0.001);
+                if (molecule) {
+                    molecule.scale.set(scale, scale, scale);
+                }
+            }
+        });
+    }
+
+    // Initialize
+    init();
+    animate();
+    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('resize', () => {
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+    });
+</script>
+{% endblock %} 

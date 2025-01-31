@@ -1,0 +1,95 @@
+{% extends 'base.html' %}
+
+{% block title %}Login - ChemQuest{% endblock %}
+
+{% block extra_css %}
+<style>
+    .login-container {
+        max-width: 400px;
+        margin: 60px auto;
+    }
+
+    .login-form {
+        background: var(--card-bg);
+        padding: 30px;
+        border-radius: 15px;
+        border: 1px solid var(--neon-purple);
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    .form-group label {
+        display: block;
+        margin-bottom: 5px;
+        color: var(--accent-yellow);
+    }
+
+    .form-group input {
+        width: 100%;
+        padding: 10px;
+        border-radius: 5px;
+        background: rgba(255, 255, 255, 0.1);
+        border: 1px solid var(--neon-purple);
+        color: white;
+    }
+
+    .form-group input:focus {
+        outline: none;
+        border-color: var(--accent-green);
+        box-shadow: 0 0 10px rgba(57, 255, 20, 0.3);
+    }
+
+    .error-message {
+        color: var(--accent-red);
+        margin-bottom: 15px;
+    }
+
+    .register-link {
+        text-align: center;
+        margin-top: 20px;
+    }
+
+    .register-link a {
+        color: var(--accent-green);
+        text-decoration: none;
+    }
+
+    .register-link a:hover {
+        text-decoration: underline;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="login-container">
+    <div class="login-form">
+        <h2>Login to ChemQuest</h2>
+
+        {% if form.errors %}
+            <div class="error-message">
+                Your username and password didn't match. Please try again.
+            </div>
+        {% endif %}
+
+        <form method="post" action="{% url 'login' %}">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="id_username">Username:</label>
+                {{ form.username }}
+            </div>
+            <div class="form-group">
+                <label for="id_password">Password:</label>
+                {{ form.password }}
+            </div>
+            <input type="hidden" name="next" value="{{ next }}">
+            <button type="submit" class="btn">Log In</button>
+        </form>
+
+        <div class="register-link">
+            <p>Don't have an account? <a href="{% url 'register' %}">Register here</a></p>
+        </div>
+    </div>
+</div>
+{% endblock %} 

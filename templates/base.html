@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}ChemQuest{% endblock %}</title>
+    <style>
+        :root {
+            --background: #1a1a1a;
+            --neon-purple: #b829ff;
+            --text-color: #ffffff;
+            --card-bg: #2e2e2e;
+            --accent-red: #ff4d4d;
+            --accent-green: #39ff14;
+            --accent-yellow: #ffff00;
+            --accent-pink: #ff69b4;
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Lato', sans-serif;
+            background-color: var(--background);
+            color: var(--text-color);
+        }
+
+        .navbar {
+            background-color: var(--card-bg);
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid var(--neon-purple);
+        }
+
+        .logo {
+            color: var(--neon-purple);
+            font-size: 24px;
+            font-weight: bold;
+            text-decoration: none;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            margin: 0 15px;
+            font-size: 18px;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--neon-purple);
+        }
+
+        .content {
+            padding: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px 0;
+            border: 1px solid var(--neon-purple);
+            box-shadow: 0 0 10px rgba(184, 41, 255, 0.2);
+        }
+
+        .btn {
+            background: var(--neon-purple);
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 15px var(--neon-purple);
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .alert {
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+
+        .alert-success {
+            background-color: var(--accent-green);
+            color: var(--background);
+        }
+
+        .alert-error {
+            background-color: var(--accent-red);
+            color: white;
+        }
+    </style>
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+    <nav class="navbar">
+        <a href="{% url 'landing' %}" class="logo">ChemQuest</a>
+        <div class="nav-links">
+            {% if user.is_authenticated %}
+                <a href="{% url 'dashboard' %}">Dashboard</a>
+                <a href="{% url 'quiz_list' %}">Quizzes</a>
+                <a href="{% url 'mentors:mentor_list' %}">Mentors</a>
+                <a href="{% url 'subscription_plans' %}">Subscriptions</a>
+                <a href="{% url 'logout' %}">Logout</a>
+            {% else %}
+                <a href="{% url 'login' %}">Login</a>
+            {% endif %}
+        </div>
+    </nav>
+
+    <div class="content">
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+        
+        {% block content %}{% endblock %}
+        {% block extra_js %}{% endblock %}
+    </div>
+</body>
+</html> 

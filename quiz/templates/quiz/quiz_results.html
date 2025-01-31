@@ -1,0 +1,101 @@
+{% extends 'base.html' %}
+
+{% block title %}Quiz Results - ChemQuest{% endblock %}
+
+{% block extra_css %}
+<style>
+    .results-container {
+        max-width: 600px;
+        margin: 2rem auto;
+        padding: 2rem;
+        background: var(--card-bg);
+        border-radius: 15px;
+        border: 1px solid var(--neon-purple);
+        text-align: center;
+    }
+
+    .score-display {
+        font-size: 3em;
+        color: var(--accent-yellow);
+        margin: 1rem 0;
+    }
+
+    .feedback {
+        margin: 1.5rem 0;
+        padding: 1rem;
+        border-radius: 10px;
+    }
+
+    .feedback.excellent {
+        background: rgba(0, 255, 0, 0.1);
+        border: 1px solid var(--accent-green);
+    }
+
+    .feedback.good {
+        background: rgba(255, 255, 0, 0.1);
+        border: 1px solid var(--accent-yellow);
+    }
+
+    .feedback.needs-improvement {
+        background: rgba(255, 0, 0, 0.1);
+        border: 1px solid var(--accent-red);
+    }
+
+    .action-buttons {
+        margin-top: 2rem;
+    }
+
+    .btn {
+        display: inline-block;
+        padding: 10px 20px;
+        margin: 0 10px;
+        border-radius: 5px;
+        text-decoration: none;
+        transition: transform 0.3s;
+    }
+
+    .btn-primary {
+        background: var(--neon-purple);
+        color: white;
+    }
+
+    .btn-secondary {
+        background: rgba(255, 255, 255, 0.1);
+        color: white;
+        border: 1px solid var(--neon-purple);
+    }
+
+    .btn:hover {
+        transform: translateY(-2px);
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="results-container">
+    <h1>Quiz Results</h1>
+    <div class="score-display">{{ attempt.score }}%</div>
+
+    {% if attempt.score >= 80 %}
+        <div class="feedback excellent">
+            <h3>Excellent!</h3>
+            <p>Outstanding performance! You've mastered this topic.</p>
+        </div>
+    {% elif attempt.score >= 60 %}
+        <div class="feedback good">
+            <h3>Good Job!</h3>
+            <p>You're doing well, but there's still room for improvement.</p>
+        </div>
+    {% else %}
+        <div class="feedback needs-improvement">
+            <h3>Keep Practicing</h3>
+            <p>Don't worry! Review the material and try again.</p>
+        </div>
+    {% endif %}
+
+    <div class="action-buttons">
+        <a href="{% url 'quiz_list' %}" class="btn btn-primary">Try Another Quiz</a>
+        <a href="{% url 'dashboard' %}" class="btn btn-secondary">Back to Dashboard</a>
+    </div>
+</div>
+{% endblock %} 

@@ -1,0 +1,73 @@
+<!-- Add this section to your dashboard template -->
+<div class="recent-quizzes">
+    <h3>Recent Quiz Activities</h3>
+    <div class="quiz-history">
+        {% for attempt in quiz_attempts %}
+        <div class="quiz-attempt">
+            <div class="quiz-info">
+                <h4>{{ attempt.quiz.title }}</h4>
+                <span class="timestamp">{{ attempt.timestamp|date:"M d, Y" }}</span>
+            </div>
+            <div class="score-info">
+                <div class="score">{{ attempt.score }}/{{ attempt.total_questions }}</div>
+                <div class="percentage {% if attempt.percentage >= 70 %}good{% elif attempt.percentage >= 40 %}average{% else %}poor{% endif %}">
+                    {{ attempt.percentage|floatformat:1 }}%
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <p>No quiz attempts yet. Try taking a quiz!</p>
+        {% endfor %}
+    </div>
+</div>
+
+<style>
+    .recent-quizzes {
+        margin-top: 2rem;
+        padding: 1rem;
+        background: white;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
+
+    .quiz-attempt {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1rem;
+        border-bottom: 1px solid #eee;
+    }
+
+    .quiz-attempt:last-child {
+        border-bottom: none;
+    }
+
+    .timestamp {
+        color: #666;
+        font-size: 0.9rem;
+    }
+
+    .score-info {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+    }
+
+    .percentage {
+        padding: 0.3rem 0.8rem;
+        border-radius: 20px;
+        color: white;
+    }
+
+    .percentage.good {
+        background: #28a745;
+    }
+
+    .percentage.average {
+        background: #ffc107;
+    }
+
+    .percentage.poor {
+        background: #dc3545;
+    }
+</style> 

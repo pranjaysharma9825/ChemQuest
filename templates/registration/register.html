@@ -1,0 +1,100 @@
+{% extends 'base.html' %}
+
+{% block title %}Register - ChemQuest{% endblock %}
+
+{% block extra_css %}
+<style>
+    .register-container {
+        max-width: 500px;
+        margin: 60px auto;
+    }
+
+    .register-form {
+        background: var(--card-bg);
+        padding: 30px;
+        border-radius: 15px;
+        border: 1px solid var(--neon-purple);
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    .form-group label {
+        display: block;
+        margin-bottom: 5px;
+        color: var(--accent-yellow);
+    }
+
+    .form-group input {
+        width: 100%;
+        padding: 10px;
+        border-radius: 5px;
+        background: rgba(255, 255, 255, 0.1);
+        border: 1px solid var(--neon-purple);
+        color: white;
+    }
+
+    .form-group input:focus {
+        outline: none;
+        border-color: var(--accent-green);
+        box-shadow: 0 0 10px rgba(57, 255, 20, 0.3);
+    }
+
+    .error-list {
+        color: var(--accent-red);
+        margin-bottom: 15px;
+        list-style: none;
+        padding: 0;
+    }
+
+    .login-link {
+        text-align: center;
+        margin-top: 20px;
+    }
+
+    .login-link a {
+        color: var(--accent-green);
+        text-decoration: none;
+    }
+
+    .login-link a:hover {
+        text-decoration: underline;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="register-container">
+    <div class="register-form">
+        <h2>Create an Account</h2>
+
+        <form method="post">
+            {% csrf_token %}
+            
+            {% if form.errors %}
+                <ul class="error-list">
+                    {% for field in form %}
+                        {% for error in field.errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    {% endfor %}
+                </ul>
+            {% endif %}
+
+            {% for field in form %}
+                <div class="form-group">
+                    <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                    {{ field }}
+                </div>
+            {% endfor %}
+
+            <button type="submit" class="btn">Register</button>
+        </form>
+
+        <div class="login-link">
+            <p>Already have an account? <a href="{% url 'login' %}">Login here</a></p>
+        </div>
+    </div>
+</div>
+{% endblock %} 

@@ -1,0 +1,88 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="mentor-detail-container">
+    <div class="mentor-profile card">
+        <div class="profile-header">
+            <h1>{{ mentor.user.get_full_name }}</h1>
+        </div>
+
+        <div class="profile-info">
+            <div class="info-section">
+                <h3>Specialization</h3>
+                <p>{{ mentor.specialization }}</p>
+            </div>
+
+            <div class="info-section">
+                <h3>Academic Achievements</h3>
+                {% if mentor.jee_percentile %}
+                <p><strong>JEE Percentile:</strong> {{ mentor.jee_percentile }}%</p>
+                {% endif %}
+                {% if mentor.jee_chemistry_rank %}
+                <p><strong>JEE Chemistry Rank:</strong> {{ mentor.jee_chemistry_rank }}</p>
+                {% endif %}
+            </div>
+
+            <div class="info-section">
+                <h3>Experience</h3>
+                <p>{{ mentor.experience }} years of teaching experience</p>
+            </div>
+
+            <div class="info-section">
+                <h3>About</h3>
+                <p>{{ mentor.bio }}</p>
+            </div>
+
+            <div class="availability">
+                {% if mentor.availability %}
+                <span class="available">● Available for mentoring</span>
+                {% else %}
+                <span class="unavailable">● Currently unavailable</span>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .mentor-detail-container {
+        padding: 2rem;
+        max-width: 800px;
+        margin: 0 auto;
+    }
+
+    .profile-header {
+        text-align: center;
+        margin-bottom: 2rem;
+    }
+
+    .profile-header h1 {
+        color: var(--neon-purple);
+    }
+
+    .info-section {
+        margin-bottom: 2rem;
+    }
+
+    .info-section h3 {
+        color: var(--neon-purple);
+        margin-bottom: 0.5rem;
+    }
+
+    .availability {
+        text-align: center;
+        margin-top: 2rem;
+        padding-top: 1rem;
+        border-top: 1px solid rgba(184, 41, 255, 0.3);
+    }
+
+    .available {
+        color: var(--accent-green);
+    }
+
+    .unavailable {
+        color: var(--accent-red);
+    }
+</style>
+{% endblock %} 

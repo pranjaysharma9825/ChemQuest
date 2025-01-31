@@ -1,0 +1,214 @@
+{% extends 'base.html' %}
+
+{% block title %}Subscription Plans - ChemQuest{% endblock %}
+
+{% block extra_css %}
+<style>
+    .plans-container {
+        display: flex;
+        justify-content: center;
+        gap: 40px;
+        margin: 50px 0;
+        flex-wrap: wrap;
+    }
+
+    .plan-card {
+        background: var(--card-bg);
+        border-radius: 20px;
+        padding: 30px;
+        width: 300px;
+        text-align: center;
+        border: 2px solid var(--neon-purple);
+        transition: transform 0.3s, box-shadow 0.3s;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .plan-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 0 30px rgba(184, 41, 255, 0.3);
+    }
+
+    .plan-name {
+        font-size: 2em;
+        color: var(--accent-yellow);
+        margin-bottom: 10px;
+    }
+
+    .plan-price {
+        font-size: 3em;
+        color: var(--neon-purple);
+        margin: 20px 0;
+    }
+
+    .plan-price small {
+        font-size: 0.4em;
+        opacity: 0.8;
+    }
+
+    .features-list {
+        list-style: none;
+        padding: 0;
+        margin: 30px 0;
+        text-align: left;
+    }
+
+    .features-list li {
+        padding: 10px 0;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .features-list li:before {
+        content: "✓";
+        color: var(--accent-green);
+        margin-right: 10px;
+    }
+
+    .popular-badge {
+        position: absolute;
+        top: 20px;
+        right: -30px;
+        background: var(--accent-green);
+        color: black;
+        padding: 5px 40px;
+        transform: rotate(45deg);
+        font-size: 0.8em;
+        font-weight: bold;
+    }
+
+    .subscribe-btn {
+        width: 100%;
+        padding: 15px;
+        border: none;
+        border-radius: 10px;
+        font-size: 1.1em;
+        cursor: pointer;
+        transition: all 0.3s;
+    }
+
+    .pro-btn {
+        background: linear-gradient(45deg, var(--neon-purple), #ff69b4);
+        color: white;
+    }
+
+    .ultra-btn {
+        background: linear-gradient(45deg, #FFD700, var(--accent-green));
+        color: black;
+    }
+
+    .comparison-table {
+        width: 100%;
+        margin-top: 50px;
+        border-collapse: collapse;
+    }
+
+    .comparison-table th,
+    .comparison-table td {
+        padding: 15px;
+        text-align: center;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .comparison-table th {
+        background: var(--card-bg);
+        color: var(--accent-yellow);
+    }
+
+    .check-icon {
+        color: var(--accent-green);
+    }
+
+    .cross-icon {
+        color: var(--accent-red);
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<h1>Choose Your Plan</h1>
+
+<div class="plans-container">
+    <div class="plan-card">
+        <h2 class="plan-name">Pro</h2>
+        <div class="plan-price">
+            ₹999<small>/month</small>
+        </div>
+        <ul class="features-list">
+            <li>Access to all basic chapters</li>
+            <li>Practice quizzes</li>
+            <li>Progress tracking</li>
+            <li>Basic mentor support</li>
+            <li>Interactive periodic table</li>
+        </ul>
+        <button class="subscribe-btn pro-btn">Subscribe to Pro</button>
+    </div>
+
+    <div class="plan-card">
+        <div class="popular-badge">POPULAR</div>
+        <h2 class="plan-name">Ultra</h2>
+        <div class="plan-price">
+            ₹1499<small>/month</small>
+        </div>
+        <ul class="features-list">
+            <li>Everything in Pro</li>
+            <li>Advanced practice problems</li>
+            <li>Priority mentor support</li>
+            <li>1-on-1 mentoring sessions</li>
+            <li>Performance analytics</li>
+            <li>Mock tests</li>
+            <li>Doubt solving sessions</li>
+        </ul>
+        <button class="subscribe-btn ultra-btn">Subscribe to Ultra</button>
+    </div>
+</div>
+
+<div class="card">
+    <h2>Plan Comparison</h2>
+    <table class="comparison-table">
+        <thead>
+            <tr>
+                <th>Features</th>
+                <th>Pro</th>
+                <th>Ultra</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Basic Chapters</td>
+                <td><span class="check-icon">✓</span></td>
+                <td><span class="check-icon">✓</span></td>
+            </tr>
+            <tr>
+                <td>Practice Quizzes</td>
+                <td><span class="check-icon">✓</span></td>
+                <td><span class="check-icon">✓</span></td>
+            </tr>
+            <tr>
+                <td>Progress Tracking</td>
+                <td><span class="check-icon">✓</span></td>
+                <td><span class="check-icon">✓</span></td>
+            </tr>
+            <tr>
+                <td>Advanced Problems</td>
+                <td><span class="cross-icon">✗</span></td>
+                <td><span class="check-icon">✓</span></td>
+            </tr>
+            <tr>
+                <td>1-on-1 Mentoring</td>
+                <td><span class="cross-icon">✗</span></td>
+                <td><span class="check-icon">✓</span></td>
+            </tr>
+            <tr>
+                <td>Mock Tests</td>
+                <td><span class="cross-icon">✗</span></td>
+                <td><span class="check-icon">✓</span></td>
+            </tr>
+            <tr>
+                <td>Priority Support</td>
+                <td><span class="cross-icon">✗</span></td>
+                <td><span class="check-icon">✓</span></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+{% endblock %} 

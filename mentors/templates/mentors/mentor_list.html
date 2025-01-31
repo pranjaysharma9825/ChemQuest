@@ -1,0 +1,143 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="mentor-container">
+    <h2 class="mentor-title">Our Expert Mentors</h2>
+    
+    <div class="mentor-grid">
+        {% for mentor in mentors %}
+        <div class="mentor-card">
+            <div class="mentor-info">
+                <h3>{{ mentor.name }}</h3>
+                <p class="specialization"><strong>Specialization:</strong> {{ mentor.specialization }}</p>
+                
+                <div class="stats">
+                    {% if mentor.jee_percentile %}
+                    <p><strong>JEE Percentile:</strong> {{ mentor.jee_percentile }}%</p>
+                    {% endif %}
+                    {% if mentor.jee_chemistry_rank %}
+                    <p><strong>JEE Chemistry Rank:</strong> {{ mentor.jee_chemistry_rank }}</p>
+                    {% endif %}
+                    <p><strong>Experience:</strong> {{ mentor.experience }} years</p>
+                </div>
+                
+                <p class="bio">{{ mentor.bio|truncatewords:30 }}</p>
+                
+                <div class="mentor-actions">
+                    <a href="{% url 'mentors:mentor_detail' mentor.id %}" class="btn">View Profile</a>
+                </div>
+                
+                <div class="availability">
+                    {% if mentor.availability %}
+                    <span class="available">● Available for mentoring</span>
+                    {% else %}
+                    <span class="unavailable">● Currently unavailable</span>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="no-mentors">
+            <p>No mentors are currently available.</p>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<style>
+    .mentor-container {
+        padding: 2rem;
+    }
+
+    .mentor-title {
+        color: var(--neon-purple);
+        text-align: center;
+        margin-bottom: 2rem;
+        font-size: 2.5rem;
+    }
+
+    .mentor-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 300px));
+        gap: 2rem;
+        padding: 1rem;
+        justify-content: center;
+    }
+
+    .mentor-card {
+        background: var(--card-bg);
+        border-radius: 15px;
+        overflow: hidden;
+        border: 1px solid var(--neon-purple);
+        transition: transform 0.3s, box-shadow 0.3s;
+        padding: 1.5rem;
+        max-width: 300px;
+    }
+
+    .mentor-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 0 20px rgba(184, 41, 255, 0.3);
+    }
+
+    .mentor-info h3 {
+        color: var(--neon-purple);
+        margin: 0 0 1rem 0;
+    }
+
+    .specialization {
+        color: var(--text-color);
+        margin-bottom: 1rem;
+    }
+
+    .stats {
+        background: rgba(184, 41, 255, 0.1);
+        padding: 1rem;
+        border-radius: 8px;
+        margin-bottom: 1rem;
+    }
+
+    .stats p {
+        margin: 0.5rem 0;
+    }
+
+    .bio {
+        color: #cccccc;
+        margin-bottom: 1rem;
+    }
+
+    .mentor-actions {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 1rem;
+    }
+
+    .availability {
+        text-align: center;
+        padding-top: 1rem;
+        border-top: 1px solid rgba(184, 41, 255, 0.3);
+    }
+
+    .available {
+        color: var(--accent-green);
+    }
+
+    .unavailable {
+        color: var(--accent-red);
+    }
+
+    .no-mentors {
+        grid-column: 1 / -1;
+        text-align: center;
+        padding: 3rem;
+        background: var(--card-bg);
+        border-radius: 15px;
+        border: 1px solid var(--neon-purple);
+    }
+
+    .no-mentors p {
+        font-size: 1.2rem;
+        color: var(--text-color);
+    }
+</style>
+{% endblock %} 
